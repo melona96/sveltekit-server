@@ -15,6 +15,12 @@ public class UserController {
         System.out.println(info);
         System.out.println("/api/* CORS success!");
     }
+    @RequestMapping (value="/login")
+    public void userLogin(@RequestBody Map<String, Object> info) {
+        System.out.println(info);
+        System.out.println("/api/* CORS success!");
+
+    }
 
 
 }
