@@ -1,9 +1,9 @@
-package com.example.login.vo;
+package com.example.user.vo;
 
 import lombok.Data;
 
 @Data
-public class LoginVo {
+public class UserVo {
 
     private String userId;
 
