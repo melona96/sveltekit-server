@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="BoardMapper">
+<mapper namespace="com.example.board.repository.BoardRepository">
     <select id="selectList" resultType="com.example.board.vo.BoardVo">
         SELECT
             a.*,
@@ -11,8 +11,7 @@
             dc_board a,
             dc_category b
         WHERE
-            a.category_cd = b.category_cd and
-            a.board_seq = #{boardSeq}
+            a.category_cd = b.category_cd
     </select>
 
     <insert id="insertUser" parameterType="map">
