@@ -1,5 +1,6 @@
 package com.example.board.controller;
 
+import com.example.board.param.BoardParamVo;
 import com.example.board.service.BoardService;
 import com.example.board.vo.BoardVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +27,13 @@ public class BoardController {
         List<BoardVo> boardList = boardService.selectList();
         data.put("boardList", boardList);
 
-        System.out.println(boardList);
         return data;
+    }
+
+    @RequestMapping(value="/detail")
+    public BoardVo getBoardDetail(@RequestBody BoardParamVo paramVo) {
+        System.out.println("paramVo: " + paramVo);
+        return boardService.selectOne(paramVo);
     }
 
     @RequestMapping(value ="/write")
