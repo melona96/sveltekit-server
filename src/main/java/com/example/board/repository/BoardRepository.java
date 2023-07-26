@@ -8,4 +8,5 @@ import java.util.List;
 @Mapper
 public interface BoardRepository {
     List<BoardVo> selectList();
+    int insertBoard(BoardVo boardVo);
 }

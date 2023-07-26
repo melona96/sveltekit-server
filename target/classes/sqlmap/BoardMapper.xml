@@ -12,9 +12,11 @@
             dc_category b
         WHERE
             a.category_cd = b.category_cd
+        order by
+            board_seq desc
     </select>
 
-    <insert id="insertUser" parameterType="map">
-        insert into tk_user(user_id, pwd, addr) values(#{userId}, #{pwd}, #{addr})
+    <insert id="insertBoard" parameterType="com.example.board.vo.BoardVo">
+        insert into dc_board(board_seq, title, content, category_cd) values(nextval('board_seq'), #{title}, #{content}, '1')
     </insert>
 </mapper>

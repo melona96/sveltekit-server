@@ -16,4 +16,8 @@ public class BoardService {
     public List<BoardVo> selectList() {
         return boardRepository.selectList();
     }
+
+    public int insertBoard(BoardVo boardVo) {
+        return boardRepository.insertBoard(boardVo);
+    }
 }

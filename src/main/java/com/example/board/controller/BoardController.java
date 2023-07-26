@@ -3,6 +3,7 @@ package com.example.board.controller;
 import com.example.board.service.BoardService;
 import com.example.board.vo.BoardVo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,15 +25,15 @@ public class BoardController {
 
         List<BoardVo> boardList = boardService.selectList();
         data.put("boardList", boardList);
-        data.put("testKey", "");
 
         System.out.println(boardList);
-        System.out.println(data);
         return data;
     }
 
-    @RequestMapping(value ="/join")
-    public void join() {
-        System.out.println("Hello World!");
+    @RequestMapping(value ="/write")
+    public int insertBoard(@RequestBody BoardVo data) {
+        System.out.println(data.toString());
+        return boardService.insertBoard(data);
     }
+
 }
