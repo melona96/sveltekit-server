@@ -3,15 +3,30 @@
 
 <mapper namespace="com.example.board.repository.BoardRepository">
     <select id="selectList" resultType="com.example.board.vo.BoardVo">
-        SELECT
+        select
             a.*,
-            b.category_nm,
-            b.category_nm_en
-        FROM
-            dc_board a,
-            dc_category b
-        WHERE
-            a.category_cd = b.category_cd
+            coalesce(b.up, 0) up
+        from
+            (select
+                 a.*,
+                 b.category_nm,
+                 b.category_nm_en
+             from
+                 dc_board a,
+                 dc_category b
+             where
+                 a.category_cd = b.category_cd
+            ) a left join
+            (select
+                 a.board_seq,
+                 count(1) up
+             from
+                 dc_up a
+             where
+                 check_up = '1'
+             group by
+                 board_seq
+            ) b on a.board_seq = b.board_seq
         order by
             board_seq desc
     </select>
@@ -19,14 +34,30 @@
     <select id="selectOne" resultType="com.example.board.vo.BoardVo" parameterType="com.example.board.param.BoardParamVo">
         select
             a.*,
-            b.category_nm,
-            b.category_nm_en
-        FROM
-            dc_board a,
-            dc_category b
-        WHERE
-            a.category_cd = b.category_cd and
-            a.board_seq = #{boardSeq}::integer
+            coalesce(b.up, 0) up
+        from
+            (select
+                 a.*,
+                 b.category_nm,
+                 b.category_nm_en
+             FROM
+                 dc_board a,
+                 dc_category b
+             WHERE
+                 a.category_cd = b.category_cd and
+                 a.board_seq = #{boardSeq}::integer
+            ) a left join
+            (select
+                 a.board_seq,
+                 count(1) up
+             from
+                 dc_up a
+             where
+                 check_up = '1' and
+                 board_seq = #{boardSeq}::integer
+             group by
+                 board_seq
+            ) b on a.board_seq = b.board_seq
     </select>
 
     <insert id="insertBoard" parameterType="com.example.board.vo.BoardVo">
@@ -41,4 +72,19 @@
         where
             board_seq = #{boardSeq}::integer
     </update>
+
+    <select id="selectCheckUp" parameterType="com.example.board.param.BoardParamVo">
+        select
+            *
+        from
+            dc_up
+        where
+            user_id = #{userId} and
+            board_seq = #{boardSeq}
+    </select>
+
+    <insert id="updateUp" parameterType="com.example.board.param.BoardParamVo">
+        insert into dc_up(board_seq, user_id, check_up) values(#{boardSeq}, 'test1', '1')
+        on conflict (board_seq, user_id) do update set check_up = #{up}
+    </insert>
 </mapper>

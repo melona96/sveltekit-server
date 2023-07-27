@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class BoardService {
@@ -28,5 +29,20 @@ public class BoardService {
 
     public void updateHits(BoardParamVo paramVo) {
         boardRepository.updateHits(paramVo);
+    }
+    public int updateUp(BoardParamVo paramVo) {
+        BoardVo checkedUp = boardRepository.selectCheckUp(paramVo);
+        if(checkedUp == null) {
+            return boardRepository.updateUp(paramVo);
+        } else {
+            if(Objects.equals(checkedUp.getUp(), "0")) {
+                paramVo.setUp("1");
+            }
+            if(Objects.equals(checkedUp.getUp(), "1")) {
+                paramVo.setUp("0");
+            }
+            return boardRepository.updateUp(paramVo);
+        }
+
     }
 }
