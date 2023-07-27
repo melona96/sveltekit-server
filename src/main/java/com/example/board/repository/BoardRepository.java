@@ -11,4 +11,5 @@ public interface BoardRepository {
     List<BoardVo> selectList();
     BoardVo selectOne(BoardParamVo paramVo);
     int insertBoard(BoardVo boardVo);
+    void updateHits(BoardParamVo paramVo);
 }

@@ -25,4 +25,8 @@ public class BoardService {
     public int insertBoard(BoardVo boardVo) {
         return boardRepository.insertBoard(boardVo);
     }
+
+    public void updateHits(BoardParamVo paramVo) {
+        boardRepository.updateHits(paramVo);
+    }
 }

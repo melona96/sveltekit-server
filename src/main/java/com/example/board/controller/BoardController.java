@@ -33,6 +33,8 @@ public class BoardController {
     @RequestMapping(value="/detail")
     public BoardVo getBoardDetail(@RequestBody BoardParamVo paramVo) {
         System.out.println("paramVo: " + paramVo);
+
+        boardService.updateHits(paramVo);
         return boardService.selectOne(paramVo);
     }
 

@@ -32,4 +32,13 @@
     <insert id="insertBoard" parameterType="com.example.board.vo.BoardVo">
         insert into dc_board(board_seq, title, content, category_cd) values(nextval('board_seq'), #{title}, #{content}, '1')
     </insert>
+
+    <update id="updateHits" parameterType="com.example.board.param.BoardParamVo">
+        update
+            dc_board
+        set
+            hits = hits + 1
+        where
+            board_seq = #{boardSeq}::integer
+    </update>
 </mapper>
