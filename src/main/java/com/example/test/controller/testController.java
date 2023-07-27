@@ -1,16 +1,21 @@
 package com.example.test.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
+import com.example.user.vo.UserVo;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.context.annotation.RequestScope;
 
 @RestController
 @RequestMapping("/test/*")
 public class testController {
     @RequestMapping(value ="/login")
-    public String home() {
+    public String login() {
         System.out.println("Hello World!");
         return "Hello World!";
+    }
+
+    @RequestMapping(value ="/join")
+    public void join() {
+        System.out.println("Hello World!");
     }
 }

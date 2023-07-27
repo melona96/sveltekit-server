@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.board.repository.BoardRepository">
+    <select id="selectList" resultType="com.example.board.vo.BoardVo">
+        SELECT
+            a.*,
+            b.category_nm,
+            b.category_nm_en
+        FROM
+            dc_board a,
+            dc_category b
+        WHERE
+            a.category_cd = b.category_cd
+        order by
+            board_seq desc
+    </select>
+
+    <select id="selectOne" resultType="com.example.board.vo.BoardVo" parameterType="com.example.board.param.BoardParamVo">
+        select
+            a.*,
+            b.category_nm,
+            b.category_nm_en
+        FROM
+            dc_board a,
+            dc_category b
+        WHERE
+            a.category_cd = b.category_cd and
+            a.board_seq = #{boardSeq}::integer
+    </select>
+
+    <insert id="insertBoard" parameterType="com.example.board.vo.BoardVo">
+        insert into dc_board(board_seq, title, content, category_cd) values(nextval('board_seq'), #{title}, #{content}, '1')
+    </insert>
+
+    <update id="updateHits" parameterType="com.example.board.param.BoardParamVo">
+        update
+            dc_board
+        set
+            hits = hits + 1
+        where
+            board_seq = #{boardSeq}::integer
+    </update>
+</mapper>
