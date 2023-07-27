@@ -20,4 +20,7 @@ public class BoardVo {
     private String categoryNmEn;
     private String checkUp;
 
+    // dc_comment
+    private String commentSeq;
+
 }

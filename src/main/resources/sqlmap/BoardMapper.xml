@@ -90,4 +90,14 @@
         set check_up = #{up},
             user_id = #{userId}
     </insert>
+
+    <select id="selectCommentList" parameterType="com.example.board.param.BoardParamVo" resultType="com.example.board.vo.BoardVo">
+        select
+            *
+        from
+            dc_comment
+        where
+            board_seq = #{boardSeq}::integer and
+            use_yn = '1'
+    </select>
 </mapper>
