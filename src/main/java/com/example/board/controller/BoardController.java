@@ -44,7 +44,7 @@ public class BoardController {
         return boardService.insertBoard(data);
     }
 
-    @RequestMapping(value="up")
+    @RequestMapping(value="/up")
     public int updateUp(@RequestBody BoardParamVo paramVo) {
         return boardService.updateUp(paramVo);
     }

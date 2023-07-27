@@ -32,17 +32,16 @@ public class BoardService {
     }
     public int updateUp(BoardParamVo paramVo) {
         BoardVo checkedUp = boardRepository.selectCheckUp(paramVo);
-        if(checkedUp == null) {
-            return boardRepository.updateUp(paramVo);
-        } else {
-            if(Objects.equals(checkedUp.getUp(), "0")) {
-                paramVo.setUp("1");
-            }
-            if(Objects.equals(checkedUp.getUp(), "1")) {
-                paramVo.setUp("0");
-            }
-            return boardRepository.updateUp(paramVo);
+        System.out.println("********************paramVo : " + paramVo.toString() + "****************");
+        System.out.println("********************checkedUp : " + checkedUp + "***************");
+        if(Objects.equals(checkedUp.getCheckUp(), "0") || checkedUp.getCheckUp() == null) {
+            paramVo.setUp("1");
+            System.out.println("*****************개추~*****************");
         }
-
+        if(Objects.equals(checkedUp.getCheckUp(), "1")) {
+            paramVo.setUp("0");
+            System.out.println("*****************이미추천했음*****************");
+        }
+        return boardRepository.updateUp(paramVo);
     }
 }

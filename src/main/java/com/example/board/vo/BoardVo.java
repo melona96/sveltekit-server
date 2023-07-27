@@ -18,4 +18,6 @@ public class BoardVo {
     private String categoryCd;
     private String categoryNm;
     private String categoryNmEn;
+    private String checkUp;
+
 }

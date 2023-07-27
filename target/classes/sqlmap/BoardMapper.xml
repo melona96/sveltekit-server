@@ -72,4 +72,22 @@
         where
             board_seq = #{boardSeq}::integer
     </update>
+
+    <select id="selectCheckUp" parameterType="com.example.board.param.BoardParamVo" resultType="com.example.board.vo.BoardVo">
+        select
+            *
+        from
+            dc_up
+        where
+            user_id = #{userId} and
+            board_seq = #{boardSeq}::integer
+    </select>
+
+    <insert id="updateUp" parameterType="com.example.board.param.BoardParamVo">
+        insert into dc_up(board_seq, user_id, check_up)
+        values(#{boardSeq}::integer, #{userId}, '1')
+        on conflict (board_seq, user_id) do update
+        set check_up = #{up},
+            user_id = #{userId}
+    </insert>
 </mapper>
