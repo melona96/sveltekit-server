@@ -31,11 +31,22 @@ public class BoardController {
     }
 
     @RequestMapping(value="/detail")
-    public BoardVo getBoardDetail(@RequestBody BoardParamVo paramVo) {
+    public Map<String, Object> getBoardDetail(@RequestBody BoardParamVo paramVo) {
         System.out.println("paramVo: " + paramVo);
 
+        Map<String, Object> data = new HashMap<>();
+
         boardService.updateHits(paramVo);
-        return boardService.selectOne(paramVo);
+
+        BoardVo board = boardService.selectOne(paramVo);
+        List<BoardVo> commentList = boardService.selectCommentList(paramVo);
+
+        System.out.println(commentList);
+
+        data.put("board", board);
+        data.put("commentList", commentList);
+
+        return data;
     }
 
     @RequestMapping(value ="/write")
@@ -49,4 +60,9 @@ public class BoardController {
         return boardService.updateUp(paramVo);
     }
 
+    @RequestMapping(value="/comment/write")
+    public int insertComment(@RequestBody BoardParamVo paramVo) {
+        System.out.println("********************paramVo: " + paramVo.toString() + "******************");
+        return boardService.insertComment(paramVo);
+    }
 }

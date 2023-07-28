@@ -22,5 +22,8 @@ public class BoardVo {
 
     // dc_comment
     private String commentSeq;
+    private String pCommentSeq;
+    private String commentCount;
+
 
 }

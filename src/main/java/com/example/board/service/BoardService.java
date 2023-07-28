@@ -48,4 +48,12 @@ public class BoardService {
         }
         return boardRepository.updateUp(paramVo);
     }
+
+    public int insertComment(BoardParamVo paramVo) {
+        return boardRepository.insertComment(paramVo);
+    }
+
+    public List<BoardVo> selectCommentList(BoardParamVo paramVo) {
+        return boardRepository.selectCommentList(paramVo);
+    }
 }

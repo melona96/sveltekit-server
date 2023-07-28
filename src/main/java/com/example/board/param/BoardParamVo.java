@@ -7,4 +7,6 @@ public class BoardParamVo {
     private String boardSeq;
     private String userId;
     private String up;
+    private String content;
+    private String pCommentSeq;
 }

@@ -14,4 +14,6 @@ public interface BoardRepository {
     void updateHits(BoardParamVo paramVo);
     BoardVo selectCheckUp(BoardParamVo paramVo);
     int updateUp(BoardParamVo paramVo);
+    List<BoardVo> selectCommentList(BoardParamVo paramVo);
+    int insertComment(BoardParamVo boardParamVo);
 }

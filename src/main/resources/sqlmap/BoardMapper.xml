@@ -5,7 +5,8 @@
     <select id="selectList" resultType="com.example.board.vo.BoardVo">
         select
             a.*,
-            coalesce(b.up, 0) up
+            coalesce(b.up, 0) up,
+            coalesce(c.comment_count, 0) comment_count
         from
             (select
                  a.*,
@@ -26,7 +27,17 @@
                  check_up = '1'
              group by
                  board_seq
-            ) b on a.board_seq = b.board_seq
+            ) b on a.board_seq = b.board_seq left join
+            (select
+                 board_seq,
+                 count(1) comment_count
+             from
+                 dc_comment
+             where
+                 use_yn = '1'
+             group by
+                 board_seq
+            ) c on a.board_seq = c.board_seq
         order by
             board_seq desc
     </select>
@@ -100,4 +111,16 @@
             board_seq = #{boardSeq}::integer and
             use_yn = '1'
     </select>
+
+    <insert id="insertComment" parameterType="com.example.board.param.BoardParamVo">
+        insert into dc_comment
+        <choose>
+            <when test="pCommentSeq != null and pCommentSeq != ''">
+                values(nextval('comment_seq'), 'test1', current_date, #{boardSeq}::integer, #{content}, '1', #{pCommentSeq}::integer)
+            </when>
+            <otherwise>
+                values(nextval('comment_seq'), 'test1', current_date, #{boardSeq}::integer, #{content}, '1', null)
+            </otherwise>
+        </choose>
+    </insert>
 </mapper>
