@@ -15,8 +15,8 @@ public class BoardService {
     @Autowired
     private BoardRepository boardRepository;
 
-    public List<BoardVo> selectList() {
-        return boardRepository.selectList();
+    public List<BoardVo> selectList(BoardParamVo paramVo) {
+        return boardRepository.selectList(paramVo);
     }
 
     public BoardVo selectOne(BoardParamVo paramVo) {

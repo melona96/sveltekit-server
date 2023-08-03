@@ -8,7 +8,7 @@ import java.util.List;
 
 @Mapper
 public interface BoardRepository {
-    List<BoardVo> selectList();
+    List<BoardVo> selectList(BoardParamVo paramVo);
     BoardVo selectOne(BoardParamVo paramVo);
     int insertBoard(BoardVo boardVo);
     void updateHits(BoardParamVo paramVo);

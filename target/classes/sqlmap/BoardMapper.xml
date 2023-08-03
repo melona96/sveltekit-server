@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.example.board.repository.BoardRepository">
-    <select id="selectList" resultType="com.example.board.vo.BoardVo">
+    <select id="selectList" resultType="com.example.board.vo.BoardVo" parameterType="com.example.board.param.BoardParamVo">
         select
             a.*,
             coalesce(b.up, 0) up,
@@ -38,6 +38,11 @@
              group by
                  board_seq
             ) c on a.board_seq = c.board_seq
+        <where>
+            <if test="categoryNmEn != null and categoryNmEn != ''">
+                a.category_nm_en = #{categoryNmEn}
+            </if>
+        </where>
         order by
             board_seq desc
     </select>

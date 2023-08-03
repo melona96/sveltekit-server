@@ -10,5 +10,6 @@ public class BoardParamVo {
     private String content;
     private String pCommentSeq;
     private String lvl;
+    private String categoryNmEn;
 
 }

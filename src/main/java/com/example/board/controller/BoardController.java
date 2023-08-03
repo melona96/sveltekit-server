@@ -21,10 +21,12 @@ public class BoardController {
     private BoardService boardService;
 
     @RequestMapping(value ="/list")
-    public Map<String, Object> getBoardList() {
+    public Map<String, Object> getBoardList(@RequestBody BoardParamVo paramVo) {
+        System.out.println("**************paramVo: " + paramVo.toString() + "**************");
         Map<String, Object> data = new HashMap<>();
 
-        List<BoardVo> boardList = boardService.selectList();
+
+        List<BoardVo> boardList = boardService.selectList(paramVo);
         data.put("boardList", boardList);
 
         return data;
