@@ -164,8 +164,8 @@
     <insert id="insertComment" parameterType="com.example.board.param.BoardParamVo">
         insert into dc_comment
         <choose>
-            <when test="pCommentSeq != null and pCommentSeq != ''">
-                values(nextval('comment_seq'), 'test1', current_date, #{boardSeq}::integer, #{content}, '1', #{pCommentSeq}::integer, '1')
+            <when test="parentSeq != null and parentSeq != ''">
+                values(nextval('comment_seq'), 'test1', current_date, #{boardSeq}::integer, #{content}, '1', #{parentSeq}::integer, '1')
             </when>
             <otherwise>
                 values(nextval('comment_seq'), 'test1', current_date, #{boardSeq}::integer, #{content}, '1', null, '0')
