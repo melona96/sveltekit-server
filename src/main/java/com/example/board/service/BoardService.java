@@ -23,8 +23,9 @@ public class BoardService {
         return boardRepository.selectOne(paramVo);
     }
 
-    public int insertBoard(BoardVo boardVo) {
-        return boardRepository.insertBoard(boardVo);
+    public int insertBoard(BoardParamVo paramVo) {
+        paramVo.setCategoryCd(selectCategoryCd(paramVo).getCategoryCd());
+        return boardRepository.insertBoard(paramVo);
     }
 
     public void updateHits(BoardParamVo paramVo) {
@@ -55,5 +56,9 @@ public class BoardService {
 
     public List<BoardVo> selectCommentList(BoardParamVo paramVo) {
         return boardRepository.selectCommentList(paramVo);
+    }
+
+    public BoardVo selectCategoryCd(BoardParamVo paramVo) {
+        return boardRepository.selectCategoryCd(paramVo);
     }
 }

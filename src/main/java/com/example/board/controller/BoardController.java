@@ -52,9 +52,9 @@ public class BoardController {
     }
 
     @RequestMapping(value ="/write")
-    public int insertBoard(@RequestBody BoardVo data) {
-        System.out.println(data.toString());
-        return boardService.insertBoard(data);
+    public int insertBoard(@RequestBody BoardParamVo paramVo) {
+        System.out.println(paramVo.toString());
+        return boardService.insertBoard(paramVo);
     }
 
     @RequestMapping(value="/up")

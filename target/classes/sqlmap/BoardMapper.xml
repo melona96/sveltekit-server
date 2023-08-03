@@ -76,8 +76,8 @@
             ) b on a.board_seq = b.board_seq
     </select>
 
-    <insert id="insertBoard" parameterType="com.example.board.vo.BoardVo">
-        insert into dc_board(board_seq, title, content, category_cd) values(nextval('board_seq'), #{title}, #{content}, '1')
+    <insert id="insertBoard" parameterType="com.example.board.param.BoardParamVo">
+        insert into dc_board(board_seq, title, content, category_cd) values(nextval('board_seq'), #{title}, #{content}, #{categoryCd})
     </insert>
 
     <update id="updateHits" parameterType="com.example.board.param.BoardParamVo">
@@ -172,4 +172,13 @@
             </otherwise>
         </choose>
     </insert>
+
+    <select id="selectCategoryCd" parameterType="com.example.board.param.BoardParamVo">
+        select
+            *
+        from
+            dc_category
+        where
+            category_nm_en = #{categoryNmEn}
+    </select>
 </mapper>

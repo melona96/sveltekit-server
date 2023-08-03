@@ -17,6 +17,13 @@ public class BoardParamVo {
     private String lvl;
 
     private String categoryNmEn;
+    private String categoryNm;
+    private String categoryCd;
+    private String inputId;
+    private String inputDt;
+    private String useYn;
+    private String title;
+
 
 
 }
