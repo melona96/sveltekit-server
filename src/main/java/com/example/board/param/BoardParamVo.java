@@ -9,4 +9,6 @@ public class BoardParamVo {
     private String up;
     private String content;
     private String pCommentSeq;
+    private String lvl;
+
 }

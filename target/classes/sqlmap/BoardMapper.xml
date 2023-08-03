@@ -103,23 +103,67 @@
     </insert>
 
     <select id="selectCommentList" parameterType="com.example.board.param.BoardParamVo" resultType="com.example.board.vo.BoardVo">
+        WITH RECURSIVE
+            comment_tree(comment_seq, input_id, input_dt, board_seq, content, use_yn, p_comment_seq, lvl, path, cycle)
+                AS (SELECT
+                        comment_seq,
+                        input_id,
+                        input_dt,
+                        board_seq,
+                        content,
+                        use_yn,
+                        p_comment_seq,
+                        lvl,
+                        ARRAY[comment_seq],
+                        false
+                    from
+                        dc_comment
+                    WHERE
+                        p_comment_seq IS NULL
+                    UNION ALL
+                    SELECT
+                        c.comment_seq,
+                        c.input_id,
+                        c.input_dt,
+                        c.board_seq,
+                        c.content,
+                        c.use_yn,
+                        c.p_comment_seq,
+                        c.lvl,
+                        ct.path || c.comment_seq,
+                        c.comment_seq = any(path)
+                    from
+                        dc_comment c,
+                        comment_tree ct
+                    where
+                        c.p_comment_seq = ct.comment_seq
+                      and not cycle
+                    )
         select
-            *
+            comment_seq,
+            input_id,
+            input_dt,
+            board_seq,
+            content,
+            use_yn,
+            p_comment_seq,
+            lvl
         from
-            dc_comment
+            comment_tree
         where
             board_seq = #{boardSeq}::integer and
             use_yn = '1'
+        order by path
     </select>
 
     <insert id="insertComment" parameterType="com.example.board.param.BoardParamVo">
         insert into dc_comment
         <choose>
             <when test="pCommentSeq != null and pCommentSeq != ''">
-                values(nextval('comment_seq'), 'test1', current_date, #{boardSeq}::integer, #{content}, '1', #{pCommentSeq}::integer)
+                values(nextval('comment_seq'), 'test1', current_date, #{boardSeq}::integer, #{content}, '1', #{pCommentSeq}::integer, '1')
             </when>
             <otherwise>
-                values(nextval('comment_seq'), 'test1', current_date, #{boardSeq}::integer, #{content}, '1', null)
+                values(nextval('comment_seq'), 'test1', current_date, #{boardSeq}::integer, #{content}, '1', null, '0')
             </otherwise>
         </choose>
     </insert>
