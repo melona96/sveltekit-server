@@ -181,4 +181,11 @@
         where
             category_nm_en = #{categoryNmEn}
     </select>
+
+    <select id="selectCategoryList" resultType="com.example.board.vo.BoardVo">
+        select
+            *
+        from
+            dc_category
+    </select>
 </mapper>

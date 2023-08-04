@@ -61,4 +61,8 @@ public class BoardService {
     public BoardVo selectCategoryCd(BoardParamVo paramVo) {
         return boardRepository.selectCategoryCd(paramVo);
     }
+
+    public List<BoardVo> selectListCatregory(){
+        return boardRepository.selectCategoryList();
+    }
 }

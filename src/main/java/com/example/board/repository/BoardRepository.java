@@ -16,6 +16,6 @@ public interface BoardRepository {
     int updateUp(BoardParamVo paramVo);
     List<BoardVo> selectCommentList(BoardParamVo paramVo);
     int insertComment(BoardParamVo boardParamVo);
-
     BoardVo selectCategoryCd(BoardParamVo paramVo);
+    List<BoardVo> selectCategoryList();
 }
