@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.example.board.repository.BoardRepository">
-    <select id="selectList" resultType="com.example.board.vo.BoardVo">
+    <select id="selectList" resultType="com.example.board.vo.BoardVo" parameterType="com.example.board.param.BoardParamVo">
         select
             a.*,
             coalesce(b.up, 0) up,
@@ -38,6 +38,11 @@
              group by
                  board_seq
             ) c on a.board_seq = c.board_seq
+        <where>
+            <if test="categoryNmEn != null and categoryNmEn != ''">
+                a.category_nm_en = #{categoryNmEn}
+            </if>
+        </where>
         order by
             board_seq desc
     </select>
@@ -71,8 +76,8 @@
             ) b on a.board_seq = b.board_seq
     </select>
 
-    <insert id="insertBoard" parameterType="com.example.board.vo.BoardVo">
-        insert into dc_board(board_seq, title, content, category_cd) values(nextval('board_seq'), #{title}, #{content}, '1')
+    <insert id="insertBoard" parameterType="com.example.board.param.BoardParamVo">
+        insert into dc_board(board_seq, title, content, category_cd) values(nextval('board_seq'), #{title}, #{content}, #{categoryCd})
     </insert>
 
     <update id="updateHits" parameterType="com.example.board.param.BoardParamVo">
@@ -103,24 +108,77 @@
     </insert>
 
     <select id="selectCommentList" parameterType="com.example.board.param.BoardParamVo" resultType="com.example.board.vo.BoardVo">
+        WITH RECURSIVE
+            comment_tree(comment_seq, input_id, input_dt, board_seq, content, use_yn, p_comment_seq, lvl, path, cycle)
+                AS (SELECT
+                        comment_seq,
+                        input_id,
+                        input_dt,
+                        board_seq,
+                        content,
+                        use_yn,
+                        p_comment_seq,
+                        lvl,
+                        ARRAY[comment_seq],
+                        false
+                    from
+                        dc_comment
+                    WHERE
+                        p_comment_seq IS NULL
+                    UNION ALL
+                    SELECT
+                        c.comment_seq,
+                        c.input_id,
+                        c.input_dt,
+                        c.board_seq,
+                        c.content,
+                        c.use_yn,
+                        c.p_comment_seq,
+                        c.lvl,
+                        ct.path || c.comment_seq,
+                        c.comment_seq = any(path)
+                    from
+                        dc_comment c,
+                        comment_tree ct
+                    where
+                        c.p_comment_seq = ct.comment_seq
+                      and not cycle
+                    )
         select
-            *
+            comment_seq,
+            input_id,
+            input_dt,
+            board_seq,
+            content,
+            use_yn,
+            p_comment_seq,
+            lvl
         from
-            dc_comment
+            comment_tree
         where
             board_seq = #{boardSeq}::integer and
             use_yn = '1'
+        order by path
     </select>
 
     <insert id="insertComment" parameterType="com.example.board.param.BoardParamVo">
         insert into dc_comment
         <choose>
-            <when test="pCommentSeq != null and pCommentSeq != ''">
-                values(nextval('comment_seq'), 'test1', current_date, #{boardSeq}::integer, #{content}, '1', #{pCommentSeq}::integer)
+            <when test="parentSeq != null and parentSeq != ''">
+                values(nextval('comment_seq'), 'test1', current_date, #{boardSeq}::integer, #{content}, '1', #{parentSeq}::integer, '1')
             </when>
             <otherwise>
-                values(nextval('comment_seq'), 'test1', current_date, #{boardSeq}::integer, #{content}, '1', null)
+                values(nextval('comment_seq'), 'test1', current_date, #{boardSeq}::integer, #{content}, '1', null, '0')
             </otherwise>
         </choose>
     </insert>
+
+    <select id="selectCategoryCd" parameterType="com.example.board.param.BoardParamVo">
+        select
+            *
+        from
+            dc_category
+        where
+            category_nm_en = #{categoryNmEn}
+    </select>
 </mapper>

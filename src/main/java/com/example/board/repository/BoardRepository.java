@@ -8,12 +8,14 @@ import java.util.List;
 
 @Mapper
 public interface BoardRepository {
-    List<BoardVo> selectList();
+    List<BoardVo> selectList(BoardParamVo paramVo);
     BoardVo selectOne(BoardParamVo paramVo);
-    int insertBoard(BoardVo boardVo);
+    int insertBoard(BoardParamVo paramVo);
     void updateHits(BoardParamVo paramVo);
     BoardVo selectCheckUp(BoardParamVo paramVo);
     int updateUp(BoardParamVo paramVo);
     List<BoardVo> selectCommentList(BoardParamVo paramVo);
     int insertComment(BoardParamVo boardParamVo);
+    BoardVo selectCategoryCd(BoardParamVo paramVo);
+    List<BoardVo> selectCategoryList();
 }

@@ -15,16 +15,17 @@ public class BoardService {
     @Autowired
     private BoardRepository boardRepository;
 
-    public List<BoardVo> selectList() {
-        return boardRepository.selectList();
+    public List<BoardVo> selectList(BoardParamVo paramVo) {
+        return boardRepository.selectList(paramVo);
     }
 
     public BoardVo selectOne(BoardParamVo paramVo) {
         return boardRepository.selectOne(paramVo);
     }
 
-    public int insertBoard(BoardVo boardVo) {
-        return boardRepository.insertBoard(boardVo);
+    public int insertBoard(BoardParamVo paramVo) {
+        paramVo.setCategoryCd(selectCategoryCd(paramVo).getCategoryCd());
+        return boardRepository.insertBoard(paramVo);
     }
 
     public void updateHits(BoardParamVo paramVo) {
@@ -55,5 +56,13 @@ public class BoardService {
 
     public List<BoardVo> selectCommentList(BoardParamVo paramVo) {
         return boardRepository.selectCommentList(paramVo);
+    }
+
+    public BoardVo selectCategoryCd(BoardParamVo paramVo) {
+        return boardRepository.selectCategoryCd(paramVo);
+    }
+
+    public List<BoardVo> selectListCatregory(){
+        return boardRepository.selectCategoryList();
     }
 }

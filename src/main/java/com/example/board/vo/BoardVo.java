@@ -24,6 +24,6 @@ public class BoardVo {
     private String commentSeq;
     private String pCommentSeq;
     private String commentCount;
-
+    private String lvl;
 
 }
